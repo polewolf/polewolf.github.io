@@ -20,7 +20,7 @@ body {
 #titel {
     color: #fff;
     height: 25px;
-    font-size: 300%;
+    font-size: 200%;
 }
 #instructies{
     color: #fff;
@@ -39,7 +39,7 @@ body {
 
     <h1 id="titel">Snake Game</h1>
 
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <canvas id="gameCanvas" width="350" height="350"></canvas>
 
     <div id="instructies">Gebruik de pijltjestoetsen om de slang te besturen.</div>
 
@@ -48,8 +48,8 @@ body {
     const ctx = canvas.getContext("2d");
      
     // Game instellingen
-    const gridSize = 20; // Grootte van elk blok
-    const canvasSize = 400; // Canvas breedte/hoogte
+    const gridSize = 17.5; // Grootte van elk blok
+    const canvasSize = 350; // Canvas breedte/hoogte
     const gridCount = canvasSize / gridSize;
      
     // Slang en voedsel
