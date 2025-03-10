@@ -116,7 +116,6 @@ body {
         // Controleer of de slang voedsel eet
         if (head.x === food.x && head.y === food.y) {
             score++;
-            scoreElement.innerHTML = "Score: " + score
             food = spawnFood();
         } else {
             snake.pop(); // Verwijder de staart
@@ -174,6 +173,7 @@ body {
         updateGame();
         drawGame();
         setTimeout(gameLoop, 100); // Stel snelheid in
+        scoreElement.innerHTML = "Score: " + score
     }
      
     // Start de game loop
