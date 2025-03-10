@@ -16,13 +16,14 @@ body {
 #homebutton {
     color: #fff;
     height: 25px;
-        
+}
 #titel {
     color: #fff;
     height: 25px;
+    font-size: 300%;
 }
 #instructies{
-    color: #fff
+    color: #fff;
 }
 #gameCanvas {
     border: 2px solid #333;
@@ -35,9 +36,13 @@ body {
 </head>
 <body>
     <a href="../" id="homebutton">home</a>
-    <div id="titel">Snake Game</div>
+
+    <h1 id="titel">Snake Game</h1>
+
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+
     <div id="instructies">Gebruik de pijltjestoetsen om de slang te besturen.</div>
+
     <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
