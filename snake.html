@@ -18,7 +18,7 @@ body {
     color: #fff;
     height: 25px;
     border: 2px solid #000;
-    left: 10;
+    left: 10px;
 }
 #titel {
     width: 25%;
@@ -39,6 +39,12 @@ body {
     display: block;
 }
 
+#score {
+    position: relative;
+    text-align: center;
+    color: #fff;
+}
+
     </style>
 </head>
 <body>
@@ -49,12 +55,14 @@ body {
     <h1 id="titel">Snake Game</h1>
 
     <canvas id="gameCanvas" width="350" height="350"></canvas>
+    <p id="score">Score: 0</p>
 
     <div id="instructies">Gebruik de pijltjestoetsen om de slang te besturen.</div>
 
     <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
+    const scoreElement = document.getElementById("score")
      
     // Game instellingen
     const gridSize = 17.5; // Grootte van elk blok
@@ -108,6 +116,7 @@ body {
         // Controleer of de slang voedsel eet
         if (head.x === food.x && head.y === food.y) {
             score++;
+            scoreElement.innerHTML = "Score:" + score
             food = spawnFood();
         } else {
             snake.pop(); // Verwijder de staart
