@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #2d2d2d;
+}
+
+#homebutton {
+    color: #fff;
+    height: 25px;
+        
+h1 {
+    color: #fff;
+    height: 25px;
+}
+#instructies{
+    color: #fff
+}
+canvas {
+    border: 2px solid #333;
+    background-color: #131;
+    margin: 20px auto;
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <a href="../" id="homebutton">home</a>
+    <h1>Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="instructies">Gebruik de pijltjestoetsen om de slang te besturen.</div>
+    <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+     
+    // Game instellingen
+    const gridSize = 20; // Grootte van elk blok
+    const canvasSize = 400; // Canvas breedte/hoogte
+    const gridCount = canvasSize / gridSize;
+     
+    // Slang en voedsel
+    let snake = [{ x: 10, y: 10 }]; // Startpositie van de slang
+    let food = spawnFood();
+    let direction = { x: 0, y: 0 }; // Geen beweging bij start
+    let score = 0;
+     
+    // Game status
+    let gameStarted = false; // Wacht op eerste beweging
+     
+    var pending = false;
+     
+    // Spawn voedsel op een willekeurige locatie
+    function spawnFood() {
+        return {
+            x: Math.floor(Math.random() * gridCount),
+            y: Math.floor(Math.random() * gridCount),
+        };
+    }
+     
+    // Teken een vakje
+    function drawBox(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x * gridSize, y * gridSize, gridSize, gridSize);
+    }
+     
+    // Update de slang en controleer op botsingen
+    function updateGame() {
+        if (!gameStarted) return; // Update alleen als het spel gestart is
+     
+        const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+     
+        // Controleer botsingen met randen of jezelf
+        if (
+            head.x < 0 || 
+            head.y < 0 || 
+            head.x >= gridCount || 
+            head.y >= gridCount ||
+            snake.some(segment => segment.x === head.x && segment.y === head.y)
+        ) {
+            alert(`Game Over! Je score is: ${score}`);
+            resetGame();
+            return;
+        }
+     
+        // Controleer of de slang voedsel eet
+        if (head.x === food.x && head.y === food.y) {
+            score++;
+            food = spawnFood();
+        } else {
+            snake.pop(); // Verwijder de staart
+        }
+     
+        snake.unshift(head); // Voeg nieuwe kop toe
+    }
+     
+    // Reset het spel na Game Over
+    function resetGame() {
+        snake = [{ x: 10, y: 10 }];
+        food = spawnFood();
+        direction = { x: 0, y: 0 };
+        score = 0;
+        gameStarted = false; // Wacht opnieuw op eerste beweging
+    }
+     
+    // Teken het speelveld
+    function drawGame() {
+        pending = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+     
+        // Teken voedsel
+        drawBox(food.x, food.y, "red");
+     
+        // Teken slang
+        snake.forEach(segment => drawBox(segment.x, segment.y, "green"));
+    }
+     
+    // Besturing van de slang
+    document.addEventListener("keydown", event => {
+        if (pending == false) {
+        if (event.key === "ArrowUp" && direction.y === 0) {
+            direction = { x: 0, y: -1 };
+            pending = true;
+            gameStarted = true; // Start het spel
+        } else if (event.key === "ArrowDown" && direction.y === 0) {
+            direction = { x: 0, y: 1 };
+            pending = true;
+            gameStarted = true; // Start het spel
+        } else if (event.key === "ArrowLeft" && direction.x === 0) {
+            direction = { x: -1, y: 0 };
+            pending = true;
+            gameStarted = true; // Start het spel
+        } else if (event.key === "ArrowRight" && direction.x === 0) {
+            direction = { x: 1, y: 0 };
+            pending = true;
+            gameStarted = true; // Start het spel
+        }
+        }
+    });
+     
+    // Game loop
+    function gameLoop() {
+        updateGame();
+        drawGame();
+        setTimeout(gameLoop, 100); // Stel snelheid in
+    }
+     
+    // Start de game loop
+    gameLoop();
+</script>
+</body>
+</html>
